@@ -8,6 +8,7 @@ var sorted = 0;
 var maxSorted = 0;
 
 var sortedList = [];
+var chosenAmountList = [];
 
 function hide(obj) {
     var el = document.getElementById(obj);
@@ -57,7 +58,7 @@ function getCombination()
     if(sortIndex + 1 < quotes.length){
             sortIndex++;
         }else{
-            sortIndex = 0;
+            sortIndex = quotes.length - 1;
     }
     
     if(compareIndex + 1 < quotes.length){
@@ -86,8 +87,19 @@ function sortCombination(above, below)
             belowIndex = i;
         }
     }
+	
+	chosenAmountList[aboveIndex] ++;
+	
+	if(aboveIndex - 1 >= 0){
+		chosenAmountList.move(aboveIndex,aboveIndex - 1);
+   		sortedList.move(aboveIndex,aboveIndex - 1);
+	}else{
+		if(belowIndex + 1 < sortedList.length){
+			chosenAmountList.move(belowIndex,belowIndex + 1);
+   			sortedList.move(belowIndex,belowIndex + 1);
+		}
+	}
     
-    sortedList.move(belowIndex,aboveIndex);
     sorted ++;
     getCombination();
 }
@@ -163,7 +175,7 @@ function printResults() {
         
         var quoteText = sortedList[i];
 
-        newQuote.innerText = (i + 1).toString() + ". " + quoteText.replace(/(<([^>]+)>)/ig, "");
+        newQuote.innerText = (i + 1).toString() + ". " + quoteText.replace(/(<([^>]+)>)/ig, "") + " (" + chosenAmountList[i].toString() + ")";
 
         //Add it to the individual section
         insertAfter(newQuote, title);
@@ -193,6 +205,14 @@ function storeQuotes() {
         });
         localStorage.setItem("thingArray", JSON.stringify(quotes));
         sortedList = quotes;
+		
+		chosenAmountList = [];
+		
+		for(var i = 0; i < quotes.length; i++){
+			chosenAmountList[i] = 0;	
+		}
+		
+		sorted = 0;
     }
     else {
         alert("Please update to a newer browser to continue.");
