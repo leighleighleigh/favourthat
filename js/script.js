@@ -33,7 +33,7 @@ function returnToEditQuote(qText) {
 
 function getCombination()
 {
-    maxSorted = sortedList.length * sortedList.length;
+    maxSorted = ((sortedList.length * sortedList.length) - sortedList.length) / 2;
     
     if(sorted < maxSorted){
     
