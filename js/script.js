@@ -41,7 +41,7 @@ function getCombination()
     
     
     document.getElementById("sortItem1").textContent = quotes[sortIndex];
-    document.getElementById("sortItem1").onclick = function(){ sortCombination(sortIndex,compareIndex); };
+    document.getElementById("sortItem1").onclick = function(){ sortCombination(quotes[sortIndex],quotes[compareIndex]); };
     
     if(compareIndex == sortIndex){
         if(compareIndex + 1 < quotes.length){
@@ -52,7 +52,7 @@ function getCombination()
     }    
     
     document.getElementById("sortItem2").textContent = quotes[compareIndex];
-    document.getElementById("sortItem2").onclick = function(){ sortCombination(compareIndex,sortIndex); };
+    document.getElementById("sortItem2").onclick = function(){ sortCombination(quotes[compareIndex],quotes[sortIndex]); };
     
     if(sortIndex + 1 < quotes.length){
             sortIndex++;
@@ -75,7 +75,19 @@ function getCombination()
 
 function sortCombination(above, below)
 {
-    sortedList.move(below,above);
+    var aboveIndex = 0;
+    var belowIndex = 0;
+    
+    for(int i = 0; i < sortedList.length; i++){
+        if(sortedList[i] == above){
+            aboveIndex = i;
+        }
+        if(sortedList[i] == below){
+            belowIndex = i;
+        }
+    }
+    
+    sortedList.move(belowIndex,aboveIndex);
     sorted ++;
     getCombination();
 }
