@@ -78,7 +78,7 @@ function sortCombination(above, below)
     var aboveIndex = 0;
     var belowIndex = 0;
     
-    for(int i = 0; i < sortedList.length; i++){
+    for(var i = 0; i < sortedList.length; i++){
         if(sortedList[i] == above){
             aboveIndex = i;
         }
