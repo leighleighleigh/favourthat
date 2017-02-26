@@ -40,7 +40,7 @@ function getCombination()
     document.getElementById("sortCounter").textContent = sorted.toString() + "/" + maxSorted.toString();
     
     
-    document.getElementById("sortItem1").textContent = sortedList[sortIndex];
+    document.getElementById("sortItem1").textContent = quotes[sortIndex];
     document.getElementById("sortItem1").onclick = function(){ sortCombination(sortIndex,compareIndex); };
     
     if(compareIndex == sortIndex){
@@ -51,7 +51,7 @@ function getCombination()
         }
     }    
     
-    document.getElementById("sortItem2").textContent = sortedList[compareIndex];
+    document.getElementById("sortItem2").textContent = quotes[compareIndex];
     document.getElementById("sortItem2").onclick = function(){ sortCombination(compareIndex,sortIndex); };
     
     if(sortIndex + 1 < quotes.length){
