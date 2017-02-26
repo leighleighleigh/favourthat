@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <!-- Title and favicon-->
+    <title>Favourite Thing Sorter</title>
+    <!--Import custom stylsheet-->
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <!--Import custom script-->
+    <script type="text/javascript" src="js/script.js"></script>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> </header>
+<main>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    
+    <div class="container">
+        
+        <div class="center-align">
+            
+            <div id="importDiv">
+                <ul id="quoteParent" class="collection">
+                        <li id="quoteEntry" class="collection-item">
+                            <a style="position: absolute; right: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="storeQuotes(); hide('importDiv'); show('sortDiv'); getCombination();"><i class="material-icons">done</i></a>
+                            <p><b>Sort your most favourite things.</b></p>
+                            
+                            <div class="row">
+                                <form class="col s12">
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <textarea id="textarea1" onkeydown="return onTestChange();" class="materialize-textarea"></textarea>
+                                            <label for="textarea1">Enter a thing here.</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <i>Things will appear below.</i>
+                                
+                            </li>
+                        <!--TEMPLATE QUOTE ITEM TO DUPLICATE IN CODE-->
+                        <li style="padding-right: 5%;" id="quoteTemplate" class="collection-item"><span id="qText">Quote Text</span><span style="position: absolute; right: 1%;"><a id="linkCursor" onclick="this.parentNode.parentNode.remove();"><i class="material-icons">delete</i></a></span><span style="position: absolute; right: 4%;"><a id="linkCursor" onclick="returnToEditQuote(this.parentNode.parentNode.children[0].innerHTML); this.parentNode.parentNode.remove();"><i class="material-icons">edit</i></a></span></li>
+                    </ul>
+            </div>
+            
+            <div id="sortDiv" style="display: none;">
+                <a style="position: absolute; left: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="hide('sortDiv'); show('importDiv');">Back</a>
+                
+                <div id="sortList" style="position: absolute; top: 15%; left: 25%; width: 50%;">
+                    <h5 id="sortCounter">Combinations remaining: 5</h5>
+                    <a id="sortItem2" style="width: 100%; margin-bottom: 2%;" class="blue waves-effect waves-light btn" onclick="">Item One</a>
+                    <a id="sortItem1" style="width: 100%; margin-bottom: 2%;" class="blue waves-effect waves-light btn" onclick="">Item Two</a>
+                    
+                </div>
+            </div>
+            
+            <div id="resultDiv" style="display: none;">                  
+                <div id="resultList" style="position: absolute; top: 15%; left: 25%; width: 50%;">
+                    <h4 id="resultTitle">Results</h4>
+                    <a id="resultItemTemplate" style="width: 100%; margin-bottom: 2%; display: none;" class="blue waves-effect waves-light btn"></a>
+                </div>
+            </div>
+            
+        </div>
+            
+    </div>
+    
+    <script>
+        getStoredQuotes();
+    </script>
+    
+</main>
+<footer class="page-footer blue darken-1">
+    <div class="footer-copyright blue darken-2">
+        <div class="container"> © 2017 Copyright Leigh Oliver <a class="grey-text text-lighten-4 right" href="#!">Powered by Materialize CSS</a></div></div>
+</footer>
+</html>
