@@ -1,14 +1,16 @@
 var quotes = [];
 var storedQuotes = [];
 
-var sortIndex = 0;
-var compareIndex = 0;
-
 var sorted = 0;
 var maxSorted = 0;
 
 var sortedList = [];
 var chosenAmountList = [];
+
+
+var indexA = 0;
+var indexB = 0;
+
 
 function hide(obj) {
     var el = document.getElementById(obj);
@@ -40,32 +42,30 @@ function getCombination()
     
     document.getElementById("sortCounter").textContent = sorted.toString() + "/" + maxSorted.toString();
     
-    
-    document.getElementById("sortItem1").textContent = quotes[sortIndex];
-    document.getElementById("sortItem1").onclick = function(){ sortCombination(quotes[sortIndex],quotes[compareIndex]); };
-    
-    if(compareIndex == sortIndex){
-        if(compareIndex + 1 < quotes.length){
-            compareIndex++;
+    //Make sure we arent comparing two of the same
+    if(indexA == indexB){
+        if(indexB + 1 < quotes.length){
+            indexB ++;
         }else{
-            compareIndex = 0;
+            indexB = 0;
         }
-    }    
+    }
+    
+        
+    //Reference items by name because the array index is used for sorting
+    var itemA = "";
+    var itemB = "";
+        
+    itemA = quotes[indexA];
+    itemB = quotes[indexB];        
+        
+        
+    //First button sets itemA as preferred over itemB, and vice versa.
+    document.getElementById("sortItem1").textContent = quotes[sortIndex];
+    document.getElementById("sortItem1").onclick = function(){ sortCombination(itemA,itemB); };    
     
     document.getElementById("sortItem2").textContent = quotes[compareIndex];
-    document.getElementById("sortItem2").onclick = function(){ sortCombination(quotes[compareIndex],quotes[sortIndex]); };
-    
-    if(sortIndex + 1 < quotes.length){
-            sortIndex++;
-        }else{
-            sortIndex = quotes.length - 1;
-    }
-    
-    if(compareIndex + 1 < quotes.length){
-            compareIndex++;
-        }else{
-            compareIndex = 0;
-    }
+    document.getElementById("sortItem2").onclick = function(){ sortCombination(itemA,itemB); };
         
     }else{
         hide('sortDiv');
@@ -74,31 +74,24 @@ function getCombination()
     }
 }
 
-function sortCombination(above, below)
+function sortCombination(higher, lower)
 {
-    var aboveIndex = 0;
-    var belowIndex = 0;
+    var Hi = 0;
+    var Lo = 0;
     
     for(var i = 0; i < sortedList.length; i++){
-        if(sortedList[i] == above){
-            aboveIndex = i;
+        if(sortedList[i] == higher){
+            Hi = sortedList[i];
         }
-        if(sortedList[i] == below){
-            belowIndex = i;
+        if(sortedList[i] == lower){
+            Lo = sortedList[i];
         }
     }
-	
-	chosenAmountList[aboveIndex] ++;
-	
-	if(aboveIndex - 1 >= 0){
-		chosenAmountList.move(aboveIndex,aboveIndex - 1);
-   		sortedList.move(aboveIndex,aboveIndex - 1);
-	}else{
-		if(belowIndex + 1 < sortedList.length){
-			chosenAmountList.move(belowIndex,belowIndex + 1);
-   			sortedList.move(belowIndex,belowIndex + 1);
-		}
-	}
+    
+    chosenAmountList[Hi]++;
+    
+    chosenAmountList.move(Hi,Lo);
+    sortedList.move(Hi,Lo);
     
     sorted ++;
     getCombination();
