@@ -61,11 +61,25 @@ function getCombination()
         
         
     //First button sets itemA as preferred over itemB, and vice versa.
-    document.getElementById("sortItem1").textContent = quotes[sortIndex];
+    document.getElementById("sortItem1").textContent = quotes[indexA];
     document.getElementById("sortItem1").onclick = function(){ sortCombination(itemA,itemB); };    
     
-    document.getElementById("sortItem2").textContent = quotes[compareIndex];
+    document.getElementById("sortItem2").textContent = quotes[indexB];
     document.getElementById("sortItem2").onclick = function(){ sortCombination(itemA,itemB); };
+        
+        
+    if(indexA + 1 < quotes.length){
+        indexA++;
+    }else{
+        indexA = 0;
+    }  
+        
+    if(indexB + 1 < quotes.length){
+        indexB++;
+    }else{
+        indexB = 0;
+    }
+        
         
     }else{
         hide('sortDiv');
@@ -90,8 +104,10 @@ function sortCombination(higher, lower)
     
     chosenAmountList[Hi]++;
     
-    chosenAmountList.move(Hi,Lo);
-    sortedList.move(Hi,Lo);
+    if(Hi > Lo){
+        chosenAmountList.move(Hi,Lo);
+        sortedList.move(Hi,Lo);
+    }
     
     sorted ++;
     getCombination();
@@ -161,14 +177,14 @@ function printResults() {
     var parent = document.getElementById("resultList");
     var title = document.getElementById("resultTitle");
     
-    for(var i = sortedList.length - 1; i >= 0; i--){
+    for(var i = 0; i < sortedList.length; i++){
         
         var newQuote = document.getElementById("resultItemTemplate").cloneNode(true);
         newQuote.style.display = 'inherit';
         
         var quoteText = sortedList[i];
 
-        newQuote.innerText = (i + 1).toString() + ". " + quoteText.replace(/(<([^>]+)>)/ig, "") + " (" + chosenAmountList[i].toString() + ")";
+        newQuote.innerText = quoteText.replace(/(<([^>]+)>)/ig, "") + " (" + chosenAmountList[i].toString() + ")";
 
         //Add it to the individual section
         insertAfter(newQuote, title);
