@@ -5,7 +5,7 @@ var sorted = 0;
 var maxSorted = 0;
 
 var sortedList = [];
-var chosenAmountList = [];
+var unsortedList = [];
 
 
 var indexA = 0;
@@ -37,11 +37,11 @@ function returnToEditQuote(qText) {
 function getCombination()
 {
     maxSorted = ((sortedList.length * sortedList.length) - sortedList.length) / 2;
-    
+
     if(sorted < maxSorted){
-    
+
     document.getElementById("sortCounter").textContent = sorted.toString() + "/" + maxSorted.toString();
-    
+
     //Make sure we arent comparing two of the same
     if(indexA == indexB){
         if(indexB + 1 < quotes.length){
@@ -50,37 +50,37 @@ function getCombination()
             indexB = 0;
         }
     }
-    
-        
+
+
     //Reference items by name because the array index is used for sorting
     var itemA = "";
     var itemB = "";
-        
+
     itemA = quotes[indexA];
-    itemB = quotes[indexB];        
-        
-        
+    itemB = quotes[indexB];
+
+
     //First button sets itemA as preferred over itemB, and vice versa.
     document.getElementById("sortItem1").textContent = quotes[indexA];
-    document.getElementById("sortItem1").onclick = function(){ sortCombination(itemA,itemB); };    
-    
+    document.getElementById("sortItem1").onclick = function(){ sortCombination(itemA,itemB); };
+
     document.getElementById("sortItem2").textContent = quotes[indexB];
-    document.getElementById("sortItem2").onclick = function(){ sortCombination(itemA,itemB); };
-        
-        
+    document.getElementById("sortItem2").onclick = function(){ sortCombination(itemB,itemA); };
+
+
     if(indexA + 1 < quotes.length){
         indexA++;
     }else{
         indexA = 0;
-    }  
-        
+    }
+
     if(indexB + 1 < quotes.length){
         indexB++;
     }else{
         indexB = 0;
     }
-        
-        
+
+
     }else{
         hide('sortDiv');
         show('resultDiv');
@@ -92,7 +92,7 @@ function sortCombination(higher, lower)
 {
     var Hi = 0;
     var Lo = 0;
-    
+
     for(var i = 0; i < sortedList.length; i++){
         if(sortedList[i] == higher){
             Hi = sortedList[i];
@@ -101,14 +101,15 @@ function sortCombination(higher, lower)
             Lo = sortedList[i];
         }
     }
-    
-    chosenAmountList[Hi]++;
-    
+
+    unsortedList[Hi]++;
+
+    //Hard to wrap head around, as the lower index is actually preferred
     if(Hi > Lo){
-        chosenAmountList.move(Hi,Lo);
+        unsortedList.move(Hi,Lo);
         sortedList.move(Hi,Lo);
     }
-    
+
     sorted ++;
     getCombination();
 }
@@ -159,7 +160,7 @@ function createNewQuote(qText) {
     newQuote.style.display = 'inherit';
 
     var quoteText = qText;
-    
+
     //Populate the individual quote
     NodeList.prototype.forEach = Array.prototype.forEach
     var children = newQuote.childNodes;
@@ -176,15 +177,15 @@ function printResults() {
     //Add the quote to the individual section
     var parent = document.getElementById("resultList");
     var title = document.getElementById("resultTitle");
-    
+
     for(var i = 0; i < sortedList.length; i++){
-        
+
         var newQuote = document.getElementById("resultItemTemplate").cloneNode(true);
         newQuote.style.display = 'inherit';
-        
+
         var quoteText = sortedList[i];
 
-        newQuote.innerText = quoteText.replace(/(<([^>]+)>)/ig, "") + " (" + chosenAmountList[i].toString() + ")";
+        newQuote.innerText = quoteText.replace(/(<([^>]+)>)/ig, "") + " (" + unsortedList[i].toString() + ")";
 
         //Add it to the individual section
         insertAfter(newQuote, title);
@@ -214,13 +215,13 @@ function storeQuotes() {
         });
         localStorage.setItem("thingArray", JSON.stringify(quotes));
         sortedList = quotes;
-		
-		chosenAmountList = [];
-		
+
+		unsortedList = [];
+
 		for(var i = 0; i < quotes.length; i++){
-			chosenAmountList[i] = 0;	
+			unsortedList[i] = 0;
 		}
-		
+
 		sorted = 0;
     }
     else {
