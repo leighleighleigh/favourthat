@@ -4,9 +4,7 @@ var storedQuotes = [];
 var sorted = 0;
 var maxSorted = 0;
 
-var sortedList = [];
-var unsortedList = [];
-
+var sortItemArray = [];
 
 var indexA = 0;
 var indexB = 0;
@@ -36,7 +34,7 @@ function returnToEditQuote(qText) {
 
 function getCombination()
 {
-    maxSorted = ((sortedList.length * sortedList.length) - sortedList.length) / 2;
+    maxSorted = ((sortItemArray.length * sortItemArray.length) - sortItemArray.length) / 2;
 
     if(sorted < maxSorted){
 
@@ -88,48 +86,71 @@ function getCombination()
     }
 }
 
-function sortCombination(higher, lower)
+function sortCombination(better, worse)
 {
-    var Hi = 0;
-    var Lo = 0;
+    var betterIndex = 0;
+    var betterValue = 0;
 
-    for(var i = 0; i < sortedList.length; i++){
-        if(sortedList[i] == higher){
-            Hi = i;
-        }
-        if(sortedList[i] == lower){
-            Lo = i;
-        }
+    var worseIndex = 0;
+    var worseValue = 0;
+
+    //Find the priority values of the two thingies
+    for(var i = 0; i < sortItemArray.length; i++)
+    {
+      if(sortItemArray[i][0] == better){
+        betterIndex = i;
+        betterValue = sortItemArray[i][1];
+      }
+      if(sortItemArray[i][0] == worse){
+        worseIndex = i;
+        worseValue = sortItemArray[i][1];
+      }
     }
 
-    unsortedList[Hi]++;
-
-    //Hard to wrap head around, as the lower index is actually preferred
-    if(Hi > Lo){
-        unsortedList.move(Hi,Lo);
-        sortedList.move(Hi,Lo);
+    //If the better item has a lower value, set it equal to the worse value plus 1
+    /*
+    if(betterValue <= worseValue){
+      betterValue = worseValue + 1;
     }
+    */
+
+    if(betterIndex > worseValue){
+      sortItemArray.move2(better,worseValue);
+    }
+
+    //Set the item's value in the Array
+    sortItemArray[betterIndex][1] = betterValue + 1;
 
     sorted ++;
     getCombination();
 }
 
-Array.prototype.move = function (old_index, new_index) {
-    while (old_index < 0) {
-        old_index += this.length;
-    }
-    while (new_index < 0) {
-        new_index += this.length;
-    }
-    if (new_index >= this.length) {
-        var k = new_index - this.length;
-        while ((k--) + 1) {
-            this.push(undefined);
-        }
-    }
-    this.splice(new_index, 0, this.splice(old_index, 1)[0]);
-    return this; // for testing purposes
-};
+Array.prototype.move2 = function(pos1, pos2) {
+   // local variables
+   var i, tmp;
+   // cast input parameters to integers
+   pos1 = parseInt(pos1, 10);
+   pos2 = parseInt(pos2, 10);
+   // if positions are different and inside array
+   if (pos1 !== pos2 && 0 <= pos1 && pos1 <= this.length && 0 <= pos2 && pos2 <= this.length) {
+     // save element from position 1
+     tmp = this[pos1];
+     // move element down and shift other elements up
+     if (pos1 < pos2) {
+       for (i = pos1; i < pos2; i++) {
+         this[i] = this[i + 1];
+       }
+     }
+     // move element up and shift other elements down
+     else {
+       for (i = pos1; i > pos2; i--) {
+         this[i] = this[i - 1];
+       }
+     }
+     // put element from position 1 to destination
+     this[pos2] = tmp;
+   }
+ }
 
 function onTestChange() {
     var key = window.event.keyCode;
@@ -174,18 +195,29 @@ function createNewQuote(qText) {
 }
 
 function printResults() {
+    //Lets sort the items by the first column value!
+    /*
+    sortItemArray.sort(function(a,b) {
+      return a[0] - b[0];
+    });
+    */
+    console.log(sortItemArray);
+
     //Add the quote to the individual section
     var parent = document.getElementById("resultList");
     var title = document.getElementById("resultTitle");
 
-    for(var i = 0; i < sortedList.length; i++){
+    for(var i = sortItemArray.length - 1; i >= 0; i--){
 
         var newQuote = document.getElementById("resultItemTemplate").cloneNode(true);
         newQuote.style.display = 'inherit';
 
-        var quoteText = sortedList[i];
+        var quoteText = sortItemArray[i][0];
+        var amount = " (" + sortItemArray[i][1].toString() + ")";
 
-        newQuote.innerText = quoteText.replace(/(<([^>]+)>)/ig, "") + " (" + unsortedList[i].toString() + ")";
+        var rank = 1 + (sortItemArray.length - i);
+
+        newQuote.innerText = i + ". " + quoteText.replace(/(<([^>]+)>)/ig, "");
 
         //Add it to the individual section
         insertAfter(newQuote, title);
@@ -214,12 +246,12 @@ function storeQuotes() {
             }
         });
         localStorage.setItem("thingArray", JSON.stringify(quotes));
-        sortedList = quotes;
 
-		unsortedList = [];
+    //Populate the multidimensional array
+		sortItemArray = [];
 
 		for(var i = 0; i < quotes.length; i++){
-			unsortedList[i] = 0;
+			sortItemArray[i] = [quotes[i],0];
 		}
 
 		sorted = 0;
