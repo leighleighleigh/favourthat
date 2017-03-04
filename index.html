@@ -17,17 +17,17 @@
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
-    
+
     <div class="container">
-        
+
         <div class="center-align">
-            
+
             <div id="importDiv">
                 <ul id="quoteParent" class="collection">
                         <li id="quoteEntry" class="collection-item">
                             <a style="position: absolute; right: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="storeQuotes(); hide('importDiv'); show('sortDiv'); getCombination();"><i class="material-icons">done</i></a>
-                            <p><b>Sort your most favourite things.</b></p>
-                            
+                            <p><b>Sort your most favourite things. WARNING! BROKEN!</b></p>
+
                             <div class="row">
                                 <form class="col s12">
                                     <div class="row">
@@ -38,41 +38,41 @@
                                     </div>
                                 </form>
                             </div>
-                            
+
                             <i>Things will appear below.</i>
-                                
+
                             </li>
                         <!--TEMPLATE QUOTE ITEM TO DUPLICATE IN CODE-->
                         <li style="padding-right: 5%;" id="quoteTemplate" class="collection-item"><span id="qText">Quote Text</span><span style="position: absolute; right: 1%;"><a id="linkCursor" onclick="this.parentNode.parentNode.remove();"><i class="material-icons">delete</i></a></span><span style="position: absolute; right: 4%;"><a id="linkCursor" onclick="returnToEditQuote(this.parentNode.parentNode.children[0].innerHTML); this.parentNode.parentNode.remove();"><i class="material-icons">edit</i></a></span></li>
                     </ul>
             </div>
-            
+
             <div id="sortDiv" style="display: none;">
                 <a style="position: absolute; left: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="hide('sortDiv'); show('importDiv');">Back</a>
-                
+
                 <div id="sortList" style="position: absolute; top: 15%; left: 25%; width: 50%;">
                     <h5 id="sortCounter">Combinations remaining: 5</h5>
                     <a id="sortItem2" style="width: 100%; margin-bottom: 2%;" class="blue waves-effect waves-light btn" onclick="">Item One</a>
                     <a id="sortItem1" style="width: 100%; margin-bottom: 2%;" class="blue waves-effect waves-light btn" onclick="">Item Two</a>
-                    
+
                 </div>
             </div>
-            
-            <div id="resultDiv" style="display: none;">                  
+
+            <div id="resultDiv" style="display: none;">
                 <div id="resultList" style="position: absolute; top: 15%; left: 25%; width: 50%;">
                     <h4 id="resultTitle">Results</h4>
                     <a id="resultItemTemplate" style="width: 100%; margin-bottom: 2%; display: none;" class="blue waves-effect waves-light btn"></a>
                 </div>
             </div>
-            
+
         </div>
-            
+
     </div>
-    
+
     <script>
         getStoredQuotes();
     </script>
-    
+
 </main>
 <footer class="page-footer blue darken-1">
     <div class="footer-copyright blue darken-2">
@@ -80,7 +80,7 @@
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
-            <input style="position: relative; float: right; width: 5%; height: auto;" type="image" src="res/donate.png" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!"><img alt="" style="display: none;" border="0" src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1"> 
+            <input style="position: relative; float: right; width: 5%; height: auto;" type="image" src="res/donate.png" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!"><img alt="" style="display: none;" border="0" src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1">
             </form>
         </span> </div>
 </footer>
