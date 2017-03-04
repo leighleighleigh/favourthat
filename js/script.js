@@ -95,10 +95,10 @@ function sortCombination(higher, lower)
 
     for(var i = 0; i < sortedList.length; i++){
         if(sortedList[i] == higher){
-            Hi = sortedList[i];
+            Hi = i;
         }
         if(sortedList[i] == lower){
-            Lo = sortedList[i];
+            Lo = i;
         }
     }
 
