@@ -34,8 +34,8 @@ function returnToEditQuote(qText) {
 
 function getCombination()
 {
-    //maxSorted = ((sortItemArray.length * sortItemArray.length) - sortItemArray.length) / 2;
-    maxSorted = sortItemArray.length * sortItemArray.length;
+    maxSorted = ((sortItemArray.length * sortItemArray.length) - sortItemArray.length) / 2;
+    //maxSorted = sortItemArray.length * sortItemArray.length;
 
     if(sorted <= maxSorted){
 
@@ -46,8 +46,17 @@ function getCombination()
         if(indexB + 1 < quotes.length){
             indexB ++;
         }else{
-            indexB = 0;
+              //Update the first index
+              if(indexA + 2 < quotes.length){
+                  var step = indexA;
+                  indexA = step + 1;
+                  indexB = step + 2;
+              }else{
+                  //End the program
+                  console.log("Hit combinations limit!");
+              }
         }
+
     }
 
     //Reference items by name because the array index is used for sorting
@@ -63,22 +72,6 @@ function getCombination()
 
     document.getElementById("sortItem2").textContent = quotes[indexB];
     document.getElementById("sortItem2").onclick = function(){ sortCombination(itemB,itemA); };
-
-    //Recalculate index's for next time
-    //Compare indexA to all indexB, then update indexA.
-    if(indexB + 1 < quotes.length){
-        indexB++;
-    }else{
-        //Reached end of indexB
-        indexB = 0;
-
-        //Update the first index
-        if(indexA + 1 < quotes.length){
-            indexA++;
-        }else{
-            indexA = 0;
-        }
-    }
 
     }else{
         hide('sortDiv');
