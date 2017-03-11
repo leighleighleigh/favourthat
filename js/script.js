@@ -111,9 +111,9 @@ function sortCombination(better, worse)
     //Have to set the value BEFORE MOVING
 
     //Set the item's value in the Array
-    if(betterValue <= worseValue){
-      sortItemArray[betterIndex][1] = worseValue + 1;
-    }
+    //if(betterValue <= worseValue){
+      sortItemArray[betterIndex][1]++;
+    //}
 
     //So not as low in the array (0 is best)
     /*
