@@ -36,6 +36,18 @@ function returnToEditQuote(qText) {
     document.getElementById("textarea1").focus();
 }
 
+function clearItems() {
+    //Delete all the quotes
+    var parent = document.getElementById("quoteParent");
+    var entry = document.getElementById("quoteEntry").cloneNode(true);
+    var div = document.createElement('DIV');
+    div.innerHTML = '<li style="padding-right: 5%;" id="quoteTemplate" class="collection-item blue lighten-5"><span id="qText">Quote Text</span><span style="position: absolute; right: 1%;"><a id="linkCursor" onclick="this.parentNode.parentNode.remove();"><i class="material-icons">delete</i></a></span><span style="position: absolute; right: 4%;"><a id="linkCursor" onclick="returnToEditQuote(this.parentNode.parentNode.children[0].innerHTML); this.parentNode.parentNode.remove();"><i class="material-icons">edit</i></a></span></li>';
+    var elements = div.firstChild;
+
+    parent.innerHTML = "";
+    parent.appendChild(entry);
+    parent.appendChild(elements);
+}
 
 function getCombination()
 {
@@ -256,6 +268,30 @@ function onTestChange() {
 
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+function continueToSort()
+{
+  var qCount = 0;
+  //Get amount of entered quotesvar parent = document.getElementById("quoteParent");
+  NodeList.prototype.forEach = Array.prototype.forEach
+  var children = document.getElementById("quoteParent").childNodes;
+  children.forEach(function (t) {
+      if (t.id == "quoteTemplate") {
+          if (t.style.display == "inherit") {
+              qCount ++;
+          }
+      }
+  });
+  //Hide or show the continue button
+  if(qCount >= 2){
+    storeQuotes();
+    hide('importDiv');
+    show('sortDiv');
+    getCombination();
+  }else{
+    alert("Please input at least two things to sort.");
+  }
 }
 
 function createNewQuote(qText) {
