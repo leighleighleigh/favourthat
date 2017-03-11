@@ -60,27 +60,18 @@
 
                     <br>
 
-                    <h4>Click the item you like better!</h4>
+                    <span><a onclick="undoCombination();" id="undoBtn" style="width: 100%; margin-bottom: 2%;" class="blue waves-effect waves-light btn">Undo</a><h4>What do you prefer?</h4></span>
                     <br>
                     <br>
                     <a id="sortItem2" style="width: 100%; margin-bottom: 2%;" class="blue waves-effect waves-light btn" onclick="">Item One</a>
                     <a id="sortItem1" style="width: 100%; margin-bottom: 2%;" class="blue waves-effect waves-light btn" onclick="">Item Two</a>
-
-                    <!--  Debug table to debug the sorting algorithm -->
-                    <br>
-                    <br>
-                    <br>
-                    <b>Current sorted results below.</b>
-                    <table id="debugTable">
-                    <!-- <tr id="dHeader"><td>Item</td><td>Value</td></tr> -->
-                    </table>
-
                 </div>
             </div>
 
             <div id="resultDiv" style="display: none;">
                 <div id="resultList" style="position: absolute; top: 15%; left: 25%; width: 50%;">
                     <h4 id="resultTitle">Results</h4>
+                    <br>
                     <a id="resultItemTemplate" style="width: 100%; margin-bottom: 2%; display: none;" class="blue waves-effect waves-light btn"></a>
                 </div>
             </div>

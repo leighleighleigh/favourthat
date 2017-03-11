@@ -9,6 +9,11 @@ var sortItemArray = [];
 var indexA = 0;
 var indexB = 0;
 
+var prevBetter = [];
+var prevWorse = [];
+
+var prevIndexA = [];
+var prevIndexB = [];
 
 function hide(obj) {
     var el = document.getElementById(obj);
@@ -39,6 +44,12 @@ function getCombination()
 
     if(sorted < maxSorted){
 
+      if(sorted > 0){
+        document.getElementById("undoBtn").style.display = "inherit";
+      }else{
+        document.getElementById("undoBtn").style.display = "none";
+      }
+
     document.getElementById("sortCounter").textContent = sorted.toString() + "/" + maxSorted.toString();
 
     if(indexB == indexA)
@@ -68,12 +79,15 @@ function getCombination()
     itemA = quotes[indexA];
     itemB = quotes[indexB];
 
+    var idA = indexA;
+    var idB = indexB;
+
     //First button sets itemA as preferred over itemB, and vice versa.
     document.getElementById("sortItem1").textContent = quotes[indexA];
-    document.getElementById("sortItem1").onclick = function(){ sortCombination(itemA,itemB); };
+    document.getElementById("sortItem1").onclick = function(){ sortCombination(itemA,itemB,idA,idB); };
 
     document.getElementById("sortItem2").textContent = quotes[indexB];
-    document.getElementById("sortItem2").onclick = function(){ sortCombination(itemB,itemA); };
+    document.getElementById("sortItem2").onclick = function(){ sortCombination(itemB,itemA,idA,idB); };
 
     if(indexB + 1 < quotes.length){
         indexB++;
@@ -99,8 +113,12 @@ function getCombination()
     }
 }
 
-function sortCombination(better, worse)
+function sortCombination(better, worse,idA,idB)
 {
+    //Calculate the progress bar
+    var wid = (100 / maxSorted) * sorted;
+    document.getElementById("progressBar").style.width = wid.toString() + "%";
+
     var betterIndex = 0;
     var betterValue = 0;
 
@@ -120,19 +138,12 @@ function sortCombination(better, worse)
       }
     }
 
+    //Set the previous index values
+    prevIndexA.push(idA);
+    prevIndexB.push(idB);
+
     //Have to set the value BEFORE MOVING
-
-    //Set the item's value in the Array
-    //if(betterValue <= worseValue){
-      sortItemArray[betterIndex][1]++;
-    //}
-
-    //So not as low in the array (0 is best)
-    /*
-    if(betterIndex > worseIndex){
-      sortItemArray.move2(betterIndex,worseIndex);
-    }
-    */
+    sortItemArray[betterIndex][1]++;
 
     //Dont do anythign with the index's now!
     sorted ++;
@@ -140,46 +151,52 @@ function sortCombination(better, worse)
     var wid = (100 / maxSorted) * sorted;
     document.getElementById("progressBar").style.width = wid.toString() + "%";
 
-    var dTable = document.getElementById("debugTable");
-    //var dHeader = document.getElementById("dHeader").cloneNode(true);
-    //Remove all existing stuff in the debug table (from last combo run)
-    //Remove all child elements
-    dTable.innerHTML = "";
-    //Add the header back
-    //dTable.appendChild(dHeader);
-    //Add a debug item to see which index's are being compared
-
-/*
-    var drowItem = document.createElement("TR");
-    var ddataItem = document.createElement("TD");
-    ddataItem.innerText = "First item Index: " + indexA.toString() + " Second item Index: " + indexB.toString();
-    drowItem.appendChild(ddataItem);
-    dTable.appendChild(drowItem);
-  */
-
-    //Sort by values
-    sortItemArray.sort(compareSecondColumn);
-
-    //Populate the table
-    for(var i = 0; i < sortItemArray.length; i++)
-    {
-        var rowItem = document.createElement("TR");
-        var dataItem = document.createElement("TD");
-        dataItem.innerText = sortItemArray[i][1].toString() + ". " + sortItemArray[i][0].toString();
-        rowItem.appendChild(dataItem);
-
-        /*
-        for(var t = 0; t < sortItemArray[i].length; t++){
-            var dataItem = document.createElement("TD");
-            dataItem.innerText = sortItemArray[i][t].toString();
-            rowItem.appendChild(dataItem);
-        }
-        */
-
-        dTable.appendChild(rowItem);
-    }
+    prevBetter.push(better);
+    prevWorse.push(worse);
 
     getCombination();
+}
+
+function undoCombination()
+{
+    if(sorted - 1 >= 0){
+      var better = prevBetter.pop();
+      var worse = prevWorse.pop();
+
+      //Calculate the progress bar
+      var wid = (100 / maxSorted) * sorted;
+      document.getElementById("progressBar").style.width = wid.toString() + "%";
+
+      var betterIndex = 0;
+      var betterValue = 0;
+      var worseIndex = 0;
+      var worseValue = 0;
+
+      //Find the priority values of the two thingies
+      for(var i = 0; i < sortItemArray.length; i++)
+      {
+        if(sortItemArray[i][0] == better){
+          betterIndex = i;
+          betterValue = sortItemArray[i][1];
+        }
+        if(sortItemArray[i][0] == worse){
+          worseIndex = i;
+          worseValue = sortItemArray[i][1];
+        }
+      }
+
+      sortItemArray[betterIndex][1] --;
+      sorted --;
+      //Calculate the progress bar
+      var wid = (100 / maxSorted) * sorted;
+      document.getElementById("progressBar").style.width = wid.toString() + "%";
+
+      indexB = prevIndexB.pop();
+      indexA = prevIndexA.pop();
+      console.log("Restored indexA:" + indexA + " indexB: " + indexB + " better: " + better.toString() + " worse: " + worse.toString());
+
+      getCombination();
+  }
 }
 
 function compareSecondColumn(a, b) {
@@ -261,13 +278,6 @@ function createNewQuote(qText) {
 }
 
 function printResults() {
-    //Lets sort the items by the first column value!
-    /*
-    sortItemArray.sort(function(a,b) {
-      return a[0] - b[0];
-    });
-    */
-    //console.log(sortItemArray);
 
     //Sort by values
     sortItemArray.sort(compareSecondColumn);
@@ -283,9 +293,9 @@ function printResults() {
         newQuote.style.display = 'inherit';
 
         var quoteText = sortItemArray[i][0];
-        var amount = " (" + sortItemArray[i][1].toString() + ")";
+        var amount = sortItemArray[i][1].toString();
 
-        newQuote.innerText = amount + ". " + quoteText.replace(/(<([^>]+)>)/ig, "");
+        newQuote.innerText = rank + ". " + quoteText.replace(/(<([^>]+)>)/ig, "") + " (" + amount + " pts.)";
         rank++;
         //Add it to the individual section
         parent.appendChild(newQuote);
