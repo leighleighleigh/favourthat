@@ -107,21 +107,45 @@ function sortCombination(better, worse)
       }
     }
 
-    //If the better item has a lower value, set it equal to the worse value plus 1
-    /*
-    if(betterValue <= worseValue){
-      betterValue = worseValue + 1;
-    }
-    */
-
-    if(betterIndex > worseValue){
-      sortItemArray.move2(better,worseValue);
-    }
+    //Have to set the value BEFORE MOVING
 
     //Set the item's value in the Array
     sortItemArray[betterIndex][1] = betterValue + 1;
 
+    //So not as low in the array (0 is best)
+    if(betterIndex > worseIndex){
+      sortItemArray.move2(betterIndex,worseIndex);
+    }
+    //Dont do anythign with the index's now!
     sorted ++;
+
+    var dTable = document.getElementById("debugTable");
+    //var dHeader = document.getElementById("dHeader").cloneNode(true);
+    //Remove all existing stuff in the debug table (from last combo run)
+    //Remove all child elements
+    dTable.innerHTML = "";
+    //Add the header back
+    //dTable.appendChild(dHeader);
+    //Populate the table
+    for(var i = 0; i < sortItemArray.length; i++)
+    {
+        var rowItem = document.createElement("TR");
+        var dataItem = document.createElement("TD");
+        dataItem.innerText = (i + 1) + ". " + sortItemArray[i][0].toString();
+        rowItem.appendChild(dataItem);
+
+        /*
+        for(var t = 0; t < sortItemArray[i].length; t++){
+            var dataItem = document.createElement("TD");
+            dataItem.innerText = sortItemArray[i][t].toString();
+            rowItem.appendChild(dataItem);
+        }
+        */
+
+        dTable.appendChild(rowItem);
+    }
+
+
     getCombination();
 }
 
@@ -206,8 +230,9 @@ function printResults() {
     //Add the quote to the individual section
     var parent = document.getElementById("resultList");
     var title = document.getElementById("resultTitle");
+    var rank = 1;
 
-    for(var i = sortItemArray.length - 1; i >= 0; i--){
+    for(var i = 0; i < sortItemArray.length; i++){
 
         var newQuote = document.getElementById("resultItemTemplate").cloneNode(true);
         newQuote.style.display = 'inherit';
@@ -215,16 +240,18 @@ function printResults() {
         var quoteText = sortItemArray[i][0];
         var amount = " (" + sortItemArray[i][1].toString() + ")";
 
-        var rank = 1 + (sortItemArray.length - i);
-
-        newQuote.innerText = i + ". " + quoteText.replace(/(<([^>]+)>)/ig, "");
-
+        newQuote.innerText = rank + ". " + quoteText.replace(/(<([^>]+)>)/ig, "");
+        rank++;
         //Add it to the individual section
-        insertAfter(newQuote, title);
+        parent.appendChild(newQuote);
     }
 }
 
 function storeQuotes() {
+
+    quotes = [];
+    sortItemArray = [];
+
     if (typeof (Storage) !== "undefined") {
         var parent = document.getElementById("quoteParent");
         NodeList.prototype.forEach = Array.prototype.forEach
