@@ -34,7 +34,8 @@ function returnToEditQuote(qText) {
 
 function getCombination()
 {
-    maxSorted = ((sortItemArray.length * sortItemArray.length) - sortItemArray.length) / 2;
+    //maxSorted = ((sortItemArray.length * sortItemArray.length) - sortItemArray.length) / 2;
+    maxSorted = sortItemArray.length * sortItemArray.length;
 
     if(sorted <= maxSorted){
 
@@ -110,12 +111,17 @@ function sortCombination(better, worse)
     //Have to set the value BEFORE MOVING
 
     //Set the item's value in the Array
-    sortItemArray[betterIndex][1] = betterValue + 1;
+    if(betterValue <= worseValue){
+      sortItemArray[betterIndex][1] = worseValue + 1;
+    }
 
     //So not as low in the array (0 is best)
+    /*
     if(betterIndex > worseIndex){
       sortItemArray.move2(betterIndex,worseIndex);
     }
+    */
+
     //Dont do anythign with the index's now!
     sorted ++;
     //Calculate the progress bar
@@ -139,12 +145,15 @@ function sortCombination(better, worse)
     dTable.appendChild(drowItem);
   */
 
+    //Sort by values
+    sortItemArray.sort(compareSecondColumn);
+
     //Populate the table
     for(var i = 0; i < sortItemArray.length; i++)
     {
         var rowItem = document.createElement("TR");
         var dataItem = document.createElement("TD");
-        dataItem.innerText = (i + 1) + ". " + sortItemArray[i][0].toString();
+        dataItem.innerText = sortItemArray[i][1].toString() + ". " + sortItemArray[i][0].toString();
         rowItem.appendChild(dataItem);
 
         /*
@@ -159,6 +168,15 @@ function sortCombination(better, worse)
     }
 
     getCombination();
+}
+
+function compareSecondColumn(a, b) {
+    if (a[1] === b[1]) {
+        return 0;
+    }
+    else {
+        return (a[1] < b[1]) ? -1 : 1;
+    }
 }
 
 Array.prototype.move2 = function(pos1, pos2) {
@@ -239,12 +257,15 @@ function printResults() {
     */
     //console.log(sortItemArray);
 
+    //Sort by values
+    sortItemArray.sort(compareSecondColumn);
+
     //Add the quote to the individual section
     var parent = document.getElementById("resultList");
     var title = document.getElementById("resultTitle");
     var rank = 1;
 
-    for(var i = 0; i < sortItemArray.length; i++){
+    for(var i = sortItemArray.length - 1; i >= 0; i--){
 
         var newQuote = document.getElementById("resultItemTemplate").cloneNode(true);
         newQuote.style.display = 'inherit';
@@ -252,7 +273,7 @@ function printResults() {
         var quoteText = sortItemArray[i][0];
         var amount = " (" + sortItemArray[i][1].toString() + ")";
 
-        newQuote.innerText = rank + ". " + quoteText.replace(/(<([^>]+)>)/ig, "");
+        newQuote.innerText = amount + ". " + quoteText.replace(/(<([^>]+)>)/ig, "");
         rank++;
         //Add it to the individual section
         parent.appendChild(newQuote);
