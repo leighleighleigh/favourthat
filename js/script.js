@@ -129,6 +129,16 @@ function sortCombination(better, worse)
     dTable.innerHTML = "";
     //Add the header back
     //dTable.appendChild(dHeader);
+    //Add a debug item to see which index's are being compared
+
+/*
+    var drowItem = document.createElement("TR");
+    var ddataItem = document.createElement("TD");
+    ddataItem.innerText = "First item Index: " + indexA.toString() + " Second item Index: " + indexB.toString();
+    drowItem.appendChild(ddataItem);
+    dTable.appendChild(drowItem);
+  */
+  
     //Populate the table
     for(var i = 0; i < sortItemArray.length; i++)
     {
