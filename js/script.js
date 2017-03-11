@@ -49,14 +49,12 @@ function getCombination()
         }
     }
 
-
     //Reference items by name because the array index is used for sorting
     var itemA = "";
     var itemB = "";
 
     itemA = quotes[indexA];
     itemB = quotes[indexB];
-
 
     //First button sets itemA as preferred over itemB, and vice versa.
     document.getElementById("sortItem1").textContent = quotes[indexA];
@@ -65,19 +63,21 @@ function getCombination()
     document.getElementById("sortItem2").textContent = quotes[indexB];
     document.getElementById("sortItem2").onclick = function(){ sortCombination(itemB,itemA); };
 
-
-    if(indexA + 1 < quotes.length){
-        indexA++;
-    }else{
-        indexA = 0;
-    }
-
+    //Recalculate index's for next time
+    //Compare indexA to all indexB, then update indexA.
     if(indexB + 1 < quotes.length){
         indexB++;
     }else{
+        //Reached end of indexB
         indexB = 0;
-    }
 
+        //Update the first index
+        if(indexA + 1 < quotes.length){
+            indexA++;
+        }else{
+            indexA = 0;
+        }
+    }
 
     }else{
         hide('sortDiv');
@@ -227,7 +227,7 @@ function printResults() {
       return a[0] - b[0];
     });
     */
-    console.log(sortItemArray);
+    //console.log(sortItemArray);
 
     //Add the quote to the individual section
     var parent = document.getElementById("resultList");
@@ -278,6 +278,8 @@ function storeQuotes() {
 
     //Populate the multidimensional array
 		sortItemArray = [];
+    //Shuffle the items's input
+    shuffle(quotes);
 
 		for(var i = 0; i < quotes.length; i++){
 			sortItemArray[i] = [quotes[i],0];
@@ -289,6 +291,26 @@ function storeQuotes() {
         alert("Please update to a newer browser to continue.");
         // Sorry! No Web Storage support..
     }
+}
+
+function shuffle(array) {
+    let counter = array.length;
+
+    // While there are elements in the array
+    while (counter > 0) {
+        // Pick a random index
+        let index = Math.floor(Math.random() * counter);
+
+        // Decrease counter by 1
+        counter--;
+
+        // And swap the last element with it
+        let temp = array[counter];
+        array[counter] = array[index];
+        array[index] = temp;
+    }
+
+    return array;
 }
 
 function getStoredQuotes() {
