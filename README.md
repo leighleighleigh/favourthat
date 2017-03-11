@@ -3,3 +3,4 @@ Sort a list by comparing pairs of items and choosing your favourite.
 
 For example, it can be used to deduce your favourite anime:
 ![](http://i.imgur.com/Yujin22.png)
+(Image credit my pal Elijah)
