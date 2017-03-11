@@ -36,7 +36,7 @@ function getCombination()
 {
     maxSorted = ((sortItemArray.length * sortItemArray.length) - sortItemArray.length) / 2;
 
-    if(sorted < maxSorted){
+    if(sorted <= maxSorted){
 
     document.getElementById("sortCounter").textContent = sorted.toString() + "/" + maxSorted.toString();
 
@@ -138,7 +138,7 @@ function sortCombination(better, worse)
     drowItem.appendChild(ddataItem);
     dTable.appendChild(drowItem);
   */
-  
+
     //Populate the table
     for(var i = 0; i < sortItemArray.length; i++)
     {
