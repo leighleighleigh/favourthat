@@ -37,26 +37,28 @@ function getCombination()
     maxSorted = ((sortItemArray.length * sortItemArray.length) - sortItemArray.length) / 2;
     //maxSorted = sortItemArray.length * sortItemArray.length;
 
-    if(sorted <= maxSorted){
+    if(sorted < maxSorted){
 
     document.getElementById("sortCounter").textContent = sorted.toString() + "/" + maxSorted.toString();
 
-    //Make sure we arent comparing two of the same
-    if(indexA == indexB){
-        if(indexB + 1 < quotes.length){
-            indexB ++;
-        }else{
-              //Update the first index
-              if(indexA + 2 < quotes.length){
-                  var step = indexA;
-                  indexA = step + 1;
-                  indexB = step + 2;
-              }else{
-                  //End the program
-                  console.log("Hit combinations limit!");
-              }
-        }
-
+    if(indexB == indexA)
+    {
+      if(indexB + 1 < quotes.length){
+          indexB++;
+      }else{
+          console.log("Time to update the A value");
+          if(indexA + 1 < quotes.length){
+            indexA++;
+            indexB = indexA;
+            if(indexB + 1 < quotes.length){
+              indexB++;
+            }else{
+              console.log("Out of combinations to check.");
+            }
+          }else{
+            console.log("Out of combinations to check.");
+          }
+      }
     }
 
     //Reference items by name because the array index is used for sorting
@@ -72,6 +74,23 @@ function getCombination()
 
     document.getElementById("sortItem2").textContent = quotes[indexB];
     document.getElementById("sortItem2").onclick = function(){ sortCombination(itemB,itemA); };
+
+    if(indexB + 1 < quotes.length){
+        indexB++;
+    }else{
+        console.log("Time to update the A value");
+        if(indexA + 1 < quotes.length){
+          indexA++;
+          indexB = indexA;
+          if(indexB + 1 < quotes.length){
+            indexB++;
+          }else{
+            console.log("Out of combinations to check.");
+          }
+        }else{
+          console.log("Out of combinations to check.");
+        }
+    }
 
     }else{
         hide('sortDiv');
@@ -310,6 +329,8 @@ function storeQuotes() {
 		}
 
 		sorted = 0;
+    indexA = 0;
+    indexB = 0;
     }
     else {
         alert("Please update to a newer browser to continue.");
