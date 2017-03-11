@@ -41,6 +41,9 @@ function getCombination()
 {
     maxSorted = ((sortItemArray.length * sortItemArray.length) - sortItemArray.length) / 2;
     //maxSorted = sortItemArray.length * sortItemArray.length;
+    //Calculate the progress bar
+    var wid = (100 / maxSorted) * sorted;
+    document.getElementById("progressBar").style.width = wid.toString() + "%";
 
     if(sorted < maxSorted){
 
@@ -284,7 +287,13 @@ function printResults() {
 
     //Add the quote to the individual section
     var parent = document.getElementById("resultList");
-    var title = document.getElementById("resultTitle");
+    var title = document.getElementById("resultTitle").cloneNode(true);
+    var newQuote = document.getElementById("resultItemTemplate").cloneNode(true);
+
+    parent.innerHTML = "";
+    parent.appendChild(title);
+    parent.appendChild(newQuote);
+
     var rank = 1;
 
     for(var i = sortItemArray.length - 1; i >= 0; i--){
@@ -331,6 +340,7 @@ function storeQuotes() {
 
     //Populate the multidimensional array
 		sortItemArray = [];
+
     //Shuffle the items's input
     shuffle(quotes);
 

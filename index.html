@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
-<header>
+<head>
     <!-- Title and favicon-->
     <title>Favourite Things Sorter</title>
-    <link rel="icon" type="image/png" href="https://leighleighleigh.github.io/favourthat/res/ftLogo.png" />
-    <link rel="shortcut icon" href="https://leighleighleigh.github.io/favourthat/res/icon.ico" />
+    <link rel="icon" type="img/png" href="./res/ftLogo.png" />
     <!--Import custom stylsheet-->
     <link type="text/css" rel="stylesheet" href="css/style.css" />
     <!--Import custom script-->
@@ -14,7 +13,8 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
     <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> </header>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
 <main>
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -24,10 +24,10 @@
 
         <div class="center-align">
 
-            <div id="importDiv">
+            <div id="importDiv" style="position: absolute; top: 15%; left: 25%; width: 50%; padding: 1%; z-index: 2;">
                 <ul id="quoteParent" class="collection">
-                        <li id="quoteEntry" class="collection-item">
-                            <a style="position: absolute; right: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="storeQuotes(); hide('importDiv'); show('sortDiv'); getCombination();"><i class="material-icons">done</i></a>
+                        <li id="quoteEntry" class="collection-item blue lighten-4">
+                            <a style="position: absolute; right: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="storeQuotes(); hide('importDiv'); show('sortDiv'); getCombination();"><i class="material-icons">arrow_right</i></a>
                             <p><b>Sort your favourite things by comparing two at a time.</b></p>
 
                             <div class="row">
@@ -45,19 +45,19 @@
 
                             </li>
                         <!--TEMPLATE QUOTE ITEM TO DUPLICATE IN CODE-->
-                        <li style="padding-right: 5%;" id="quoteTemplate" class="collection-item"><span id="qText">Quote Text</span><span style="position: absolute; right: 1%;"><a id="linkCursor" onclick="this.parentNode.parentNode.remove();"><i class="material-icons">delete</i></a></span><span style="position: absolute; right: 4%;"><a id="linkCursor" onclick="returnToEditQuote(this.parentNode.parentNode.children[0].innerHTML); this.parentNode.parentNode.remove();"><i class="material-icons">edit</i></a></span></li>
+                        <li style="padding-right: 5%;" id="quoteTemplate" class="collection-item blue lighten-5"><span id="qText">Quote Text</span><span style="position: absolute; right: 1%;"><a id="linkCursor" onclick="this.parentNode.parentNode.remove();"><i class="material-icons">delete</i></a></span><span style="position: absolute; right: 4%;"><a id="linkCursor" onclick="returnToEditQuote(this.parentNode.parentNode.children[0].innerHTML); this.parentNode.parentNode.remove();"><i class="material-icons">edit</i></a></span></li>
                     </ul>
             </div>
 
             <div id="sortDiv" style="display: none;">
-                <a style="position: absolute; left: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="hide('sortDiv'); show('importDiv');">Back</a>
+                <a style="position: absolute; left: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="hide('sortDiv'); show('importDiv');"><i class="material-icons">arrow_left</i></a>
 
-                <div id="sortList" style="position: absolute; top: 15%; left: 25%; width: 50%;">
+                <div id="sortList" style="position: absolute; top: 15%; left: 25%; width: 50%; padding: 1%;" class="blue lighten-4 card">
 
-                    <div class="progress">
+                    <div class="progress blue lighten-5">
                         <div class="determinate blue" id="progressBar" style="width: 0%"></div>
                     </div>
-                    <h5 id="sortCounter">Combinations remaining: 5</h5>
+                    <i><h6 id="sortCounter">Combinations remaining: 5</h6></i>
 
                     <br>
 
@@ -71,8 +71,8 @@
             </div>
 
             <div id="resultDiv" style="display: none;">
-              <a style="position: absolute; left: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="hide('resultDiv'); show('importDiv');">Back</a>
-                <div id="resultList" style="position: absolute; top: 15%; left: 25%; width: 50%;">
+              <a style="position: absolute; left: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="hide('resultDiv'); show('importDiv');"><i class="material-icons">arrow_left</i></a>
+                <div id="resultList" style="position: absolute; top: 15%; left: 25%; width: 50%; padding: 1%; z-index: 2;" class="blue lighten-4 card">
                     <h4 id="resultTitle">Results</h4>
                     <br>
                     <a id="resultItemTemplate" style="width: 100%; margin-bottom: 2%; display: none;" class="blue waves-effect waves-light btn"></a>
@@ -88,7 +88,7 @@
     </script>
 
 </main>
-<footer class="page-footer blue darken-1">
+<footer class="page-footer blue darken-1" style="position: fixed; bottom: 0px; width: 100%; overflow: hidden; z-index: 1;">
     <div class="footer-copyright blue darken-2">
         <div class="container"> © 2017 Copyright Leigh Oliver <a class="grey-text text-lighten-4 right" href="#!">v0.33 - Powered by Materialize CSS</a></div> <span style="position: absolute; float: right;">
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
