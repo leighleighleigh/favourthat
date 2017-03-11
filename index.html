@@ -26,7 +26,7 @@
                 <ul id="quoteParent" class="collection">
                         <li id="quoteEntry" class="collection-item">
                             <a style="position: absolute; right: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="storeQuotes(); hide('importDiv'); show('sortDiv'); getCombination();"><i class="material-icons">done</i></a>
-                            <p><b>Sort your favourite things by comparing two at a time.</b></p>
+                            <p><b>Sort your favourite things by comparing two at a time. WARNING NOT WORKING.</b></p>
 
                             <div class="row">
                                 <form class="col s12">
@@ -51,7 +51,17 @@
                 <a style="position: absolute; left: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="hide('sortDiv'); show('importDiv');">Back</a>
 
                 <div id="sortList" style="position: absolute; top: 15%; left: 25%; width: 50%;">
+
+                    <div class="progress">
+                        <div class="determinate blue" id="progressBar" style="width: 0%"></div>
+                    </div>
                     <h5 id="sortCounter">Combinations remaining: 5</h5>
+
+                    <br>
+
+                    <h4>Click the item you like better!</h4>
+                    <br>
+                    <br>
                     <a id="sortItem2" style="width: 100%; margin-bottom: 2%;" class="blue waves-effect waves-light btn" onclick="">Item One</a>
                     <a id="sortItem1" style="width: 100%; margin-bottom: 2%;" class="blue waves-effect waves-light btn" onclick="">Item Two</a>
 

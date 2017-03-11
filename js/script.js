@@ -118,6 +118,9 @@ function sortCombination(better, worse)
     }
     //Dont do anythign with the index's now!
     sorted ++;
+    //Calculate the progress bar
+    var wid = (100 / maxSorted) * sorted;
+    document.getElementById("progressBar").style.width = wid.toString() + "%";
 
     var dTable = document.getElementById("debugTable");
     //var dHeader = document.getElementById("dHeader").cloneNode(true);
@@ -144,7 +147,6 @@ function sortCombination(better, worse)
 
         dTable.appendChild(rowItem);
     }
-
 
     getCombination();
 }
