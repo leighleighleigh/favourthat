@@ -24,29 +24,61 @@
 
         <div class="center-align">
 
-            <div id="importDiv" style="position: absolute; top: 15%; left: 25%; width: 50%; padding: 1%; z-index: 2;">
+            <div id="importDiv">
+                <a style="position: absolute; right: 10px; top: 10px;" class="blue waves-effect waves-light btn" onclick="continueToSort();"><i class="material-icons">arrow_right</i></a>
+                <div  style="position: absolute; top: 15%; left: 25%; width: 50%; padding: 1%; z-index: 2;">
                 <ul id="quoteParent" class="collection">
                         <li id="quoteEntry" class="collection-item blue lighten-4">
-                            <a style="position: absolute; right: 8px; top: 10px;" class="blue waves-effect waves-light btn" onclick="continueToSort();"><i class="material-icons">arrow_right</i></a>
+
                             <p><b>Sort your favourite things by comparing two at a time.</b></p>
 
+                            <div class="switch">
+                              <label class="blue-text">
+                                Individual
+                                <input id="inputType" type="checkbox" onclick="changeInputType();">
+                                <span class="lever blue"></span>
+                                Bulk
+                              </label>
+                            </div>
+
+                            <div id="individualEntry" style="display: inherit;">
                             <div class="row">
                                 <form class="col s12">
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <textarea id="textarea1" onkeydown="return onTestChange();" class="materialize-textarea"></textarea>
-                                            <label for="textarea1">Enter a thing here.</label>
+                                            <label for="textarea1">Enter a thing here, then press Return</label>
                                         </div>
                                     </div>
                                 </form>
                             </div>
+                          </div>
 
-                            <i>Things will appear below.</i><span style="float: right;"><a id="linkCursor" onclick="clearItems();"><i class="material-icons">delete_sweep</i></a></span>
+                          <div class="row" style="display: none;" id="bulkEntry">
+                                <!--Text parsing options form-->
+                                <br>
+                              <b>Items are split by newline.</b>
+
+                                <!--Text input form-->
+                                <form class="col s12">
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <textarea id="textarea2" class="materialize-textarea"></textarea>
+                                            <label for="textarea2">Enter bulk items here.</label>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <br> <a onclick="submitBulkItems();" class="waves-effect waves-light btn red">submit bulk</a>
+                            </div>
+
+                            <i style=" position: relative; left: 1%;">Things will appear below.</i><span style="float: right;"><a id="linkCursor" onclick="clearItems();"><i class="material-icons">delete_sweep</i></a></span>
 
                             </li>
                         <!--TEMPLATE QUOTE ITEM TO DUPLICATE IN CODE-->
-                        <li style="padding-right: 5%;" id="quoteTemplate" class="collection-item blue lighten-5"><span id="qText">Quote Text</span><span style="position: absolute; right: 1%;"><a id="linkCursor" onclick="this.parentNode.parentNode.remove();"><i class="material-icons">delete</i></a></span><span style="position: absolute; right: 4%;"><a id="linkCursor" onclick="returnToEditQuote(this.parentNode.parentNode.children[0].innerHTML); this.parentNode.parentNode.remove();"><i class="material-icons">edit</i></a></span></li>
+                        <li style="padding-right: 5%;" id="quoteTemplate" class="collection-item blue lighten-5"><span id="qText" style="position: relative; left: 1%;">Quote Text</span><span style="position: absolute; right: 1%;"><span><a id="linkCursor" onclick="returnToEditQuote(this.parentNode.parentNode.parentNode.children[0].innerHTML); this.parentNode.parentNode.parentNode.remove();"><i class="material-icons">edit</i></a></span><span><a id="linkCursor" onclick="this.parentNode.parentNode.parentNode.remove();"><i class="material-icons">delete</i></a></span></span></li>
                     </ul>
+                  </div>
             </div>
 
             <div id="sortDiv" style="display: none;">
@@ -85,6 +117,10 @@
 
     <script>
         getStoredQuotes();
+
+        $(document).ready(function() {
+          $('select').material_select();
+        });
     </script>
 
 </main>

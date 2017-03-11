@@ -15,6 +15,9 @@ var prevWorse = [];
 var prevIndexA = [];
 var prevIndexB = [];
 
+var rawBulkInput = "";
+var bulkSplitChar = "\n";
+
 function hide(obj) {
     var el = document.getElementById(obj);
     el.style.display = 'none';
@@ -36,17 +39,56 @@ function returnToEditQuote(qText) {
     document.getElementById("textarea1").focus();
 }
 
+function changeInputType()
+{
+  if(document.getElementById("inputType").checked){
+    hide("individualEntry");
+    show("bulkEntry");
+  }else{
+    show("individualEntry");
+    hide("bulkEntry");
+  }
+}
+
 function clearItems() {
     //Delete all the quotes
     var parent = document.getElementById("quoteParent");
     var entry = document.getElementById("quoteEntry").cloneNode(true);
     var div = document.createElement('DIV');
-    div.innerHTML = '<li style="padding-right: 5%;" id="quoteTemplate" class="collection-item blue lighten-5"><span id="qText">Quote Text</span><span style="position: absolute; right: 1%;"><a id="linkCursor" onclick="this.parentNode.parentNode.remove();"><i class="material-icons">delete</i></a></span><span style="position: absolute; right: 4%;"><a id="linkCursor" onclick="returnToEditQuote(this.parentNode.parentNode.children[0].innerHTML); this.parentNode.parentNode.remove();"><i class="material-icons">edit</i></a></span></li>';
+    div.innerHTML = '<li style="padding-right: 5%;" id="quoteTemplate" class="collection-item blue lighten-5"><span id="qText" style="position: relative; left: 1%;">Quote Text</span><span style="position: absolute; right: 1%;"><span><a id="linkCursor" onclick="returnToEditQuote(this.parentNode.parentNode.parentNode.children[0].innerHTML); this.parentNode.parentNode.parentNode.remove();"><i class="material-icons">edit</i></a></span><span><a id="linkCursor" onclick="this.parentNode.parentNode.parentNode.remove();"><i class="material-icons">delete</i></a></span></span></li>';
     var elements = div.firstChild;
 
     parent.innerHTML = "";
     parent.appendChild(entry);
     parent.appendChild(elements);
+}
+
+function submitBulkItems() {
+    var quote = document.getElementById("textarea2").value;
+    if (!isNullOrWhitespace(quote)) {
+        rawBulkInput = document.getElementById("textarea2").value;
+        document.getElementById("textarea2").value = "";
+        document.getElementById("textarea2").style.height = "23px";
+        scrollTo(0,0);
+        parseBulkQuotes();
+    }
+}
+
+function parseBulkQuotes() {
+    var bulkText = rawBulkInput;
+    var splitChar = bulkSplitChar;
+    var splitQuotes = bulkText.split(splitChar);
+    for (var i = 0; i < splitQuotes.length; i++) {
+        var quoteText = splitQuotes[i];
+        if (!isNullOrWhitespace(quoteText)) {
+            quoteText.replace(/(<([^>]+)>)/ig, "");
+            createNewQuote(quoteText);
+        }
+    }
+}
+
+function setBulkSplit(sChar) {
+    bulkSplitChar = sChar;
 }
 
 function getCombination()
